@@ -52,13 +52,13 @@ if(BUILD_EXAMPLES)
     endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
 endif()
 
-install(TARGETS splay_tree
-    EXPORT splay_tree-config
+install(TARGETS SplayTree
+    EXPORT SplayTree-config
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
 )
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include)
-install(EXPORT splay_tree-config DESTINATION cmake)
+install(EXPORT SplayTree-config DESTINATION cmake)
 
 include(CPackConfig.cmake)
