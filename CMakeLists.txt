@@ -7,6 +7,11 @@ HunterGate(
 )
 
 project(splay)
+set(SPLAY_TREE_VERSION_MAJOR 0)
+set(SPLAY_TREE_VERSION_MINOR 1)
+set(SPLAY_TREE_VERSION_PATCH 0)
+set(SPLAY_TREE_VERSION_TWEAK 0)
+set(SPLAY_TREE_VERSION ${SPLAY_TREE_VERSION_MAJOR}.${SPLAY_TREE_VERSION_MINOR}.${SPLAY_TREE_VERSION_PATCH}.${SPLAY_TREE_VERSION_TWEAK})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -14,9 +19,11 @@ option(BUILD_TESTS "Build tests" OFF)
 option(BUILD_EXAMPLES "Build Examples" OFF)
 
 add_library(${PROJECT_NAME} INTERFACE)
-target_sources(${PROJECT_NAME} INTERFACE "${PROJECT_SOURCE_DIR}/include/splay.h")
+target_include_directories(${PROJECT_NAME} INTERFACE 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
+    $<INSTALL_INTERFACE:include>
+)
 
-target_include_directories(${PROJECT_NAME} INTERFACE "${PROJECT_SOURCE_DIR}/include")
 
 if(BUILD_TESTS)
   hunter_add_package(Catch)
@@ -44,3 +51,14 @@ if(BUILD_EXAMPLES)
                 )
     endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
 endif()
+
+install(TARGETS priority_queue
+    EXPORT priority_queue-config
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include)
+install(EXPORT splay_tree-config DESTINATION cmake)
+
+include(CPackConfig.cmake)
