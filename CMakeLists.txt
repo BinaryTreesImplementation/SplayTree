@@ -52,8 +52,8 @@ if(BUILD_EXAMPLES)
     endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
 endif()
 
-install(TARGETS priority_queue
-    EXPORT priority_queue-config
+install(TARGETS splay_tree
+    EXPORT splay_tree-config
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
 )
