@@ -112,15 +112,7 @@ private:
 	}
 
 
-	Node *_copyNode(Node *copy)
-	{
-		if (copy == nullptr)
-			return nullptr;
-		Node *copiedNode = new Node(copy->key);
-		copiedNode->left = _copyNode(copy->left);
-		copiedNode->right = _copyNode(copy->right);
-		return copiedNode;
-	}
+	
 
 public:
 	SplayTree() : root(nullptr), count(0) {	 };
@@ -141,20 +133,6 @@ public:
 	~SplayTree()
 	{
 		deleteNode(root);
-	}
-
-	
-
-	SplayTree(const SplayTree& obj)
-	{
-		this->root = _copyNode(obj.root);
-	}
-
-	SplayTree& operator=(const SplayTree& obj)
-	{
-		if (this->root != obj.root)
-			this->root = _copyNode(obj.root);
-		return *this;
 	}
 
 	void display(const Node* temp, unsigned int level)const
