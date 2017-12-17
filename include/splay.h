@@ -1,4 +1,3 @@
-#pragma once
 #include <iostream>
 #include <functional>
 template <typename T>
@@ -49,9 +48,6 @@ private:
 			_left->right->parent = localRoot;
 		_transplant(localRoot, _left);
 		_left->right = localRoot;
-			
-	
-		//std::cout << *getKeyRoot() << "\n";
 		localRoot->parent = _left;
 	}
 
@@ -116,13 +112,51 @@ private:
 	}
 
 
+	Node *_copyNode(Node *copy)
+	{
+		if (copy == nullptr)
+			return nullptr;
+		Node *copiedNode = new Node(copy->key);
+		copiedNode->left = _copyNode(copy->left);
+		copiedNode->right = _copyNode(copy->right);
+		return copiedNode;
+	}
 
 public:
 	SplayTree() : root(nullptr), count(0) {	 };
+	
+	void deleteNode(Node* temp)
+	{
+		if (temp != nullptr)
+		{
+			deleteNode(temp->left);
+			deleteNode(temp->right);
+			delete temp;
+			--count;
+		}
+		if (count == 0)
+			root = nullptr;
+	}
+
 	~SplayTree()
 	{
-		delete root;
+		deleteNode(root);
 	}
+
+	
+
+	SplayTree(const SplayTree& obj)
+	{
+		this->root = _copyNode(obj.root);
+	}
+
+	SplayTree& operator=(const SplayTree& obj)
+	{
+		if (this->root != obj.root)
+			this->root = _copyNode(obj.root);
+		return *this;
+	}
+
 	void display(const Node* temp, unsigned int level)const
 	{
 		if (temp)
