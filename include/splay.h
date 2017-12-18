@@ -194,7 +194,7 @@ public:
 	{
 		Node *removeElement = search(value);
 		
-		if (removeElement != nullptr && count > 0)
+		if (removeElement != nullptr && root->getCount() > 0)
 		{
 			if (removeElement->left == nullptr)
 			{
