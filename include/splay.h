@@ -1,19 +1,29 @@
 #include <iostream>
 #include <functional>
+
+class Counter
+{
+protected:
+	size_t& Count() { static size_t counter = 0; return counter; }
+public:
+	Counter() { ++Count(); }
+	~Counter() { --Count(); }
+};
+
 template <typename T>
 class SplayTree
 {
 private:
-	struct Node
+	struct Node: public Counter
 	{
 		Node *left;
 		Node *right;
 		Node *parent;
 		T key;
 		Node(const T& value = T()) : left(nullptr), right(nullptr), parent(nullptr), key(value) {}
+		size_t getCount() { return Count(); }
 	} *root;
-	std::size_t count;
-
+	
 	void _transplant(Node *localParent, Node *localChild)
 	{
 		if (localParent == root)
@@ -124,9 +134,9 @@ public:
 			deleteNode(temp->left);
 			deleteNode(temp->right);
 			delete temp;
-			--count;
+			
 		}
-		if (count == 0)
+		if (root->getCount() == 0)
 			root = nullptr;
 	}
 
@@ -175,7 +185,7 @@ public:
 			preInsertPlace->right = insertElement;
 		else if (insertElement->key < preInsertPlace->key)
 			preInsertPlace->left = insertElement;
-		++count;
+		
 		_splay(insertElement);
 	}
 
@@ -212,8 +222,7 @@ public:
 				newLocalRoot->right->parent = newLocalRoot;
 				_splay(newLocalRoot);
 			}
-			delete[] removeElement;
-			--count;
+			delete removeElement;
 		}
 	}
 
@@ -241,9 +250,9 @@ public:
 	}
 
 
-	std::size_t getCount()
+	std::size_t getCounter()
 	{
-		return count;
+		return root->getCount();
 	}
 
 	T* getRightKey(const T& key)
