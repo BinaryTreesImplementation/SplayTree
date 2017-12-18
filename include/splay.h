@@ -125,7 +125,7 @@ private:
 	
 
 public:
-	SplayTree() : root(nullptr), count(0) {	 };
+	SplayTree() : root(nullptr){	 };
 	
 	void deleteNode(Node* temp)
 	{
