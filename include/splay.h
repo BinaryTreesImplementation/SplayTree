@@ -1,6 +1,6 @@
 #include <iostream>
 #include <functional>
-
+#ifndef Counter 
 class Counter
 {
 protected:
@@ -9,7 +9,7 @@ public:
 	Counter() { ++Count(); }
 	~Counter() { --Count(); }
 };
-
+#endif
 template <typename T>
 class SplayTree
 {
